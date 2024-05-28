@@ -12,9 +12,11 @@ namespace CommonMAUI_JWT.Platforms.iOS
     {
         public HttpMessageHandler GetHttpMessageHandler()
         {
-            return new NSUrlSessionHandler {
-                TrustOverrideForUrl = (NSUrlSessionHandler sender, string url, SecTrust trust) => url.StartsWith("https://localhost");
-            }
+            return new NSUrlSessionHandler
+            {
+                TrustOverrideForUrl = (NSUrlSessionHandler sender, string url, SecTrust trust) => url.StartsWith("https://localhost")
+            };
         }
     }
 }
+
