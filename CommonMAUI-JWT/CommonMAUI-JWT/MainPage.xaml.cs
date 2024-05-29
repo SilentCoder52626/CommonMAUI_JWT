@@ -1,18 +1,25 @@
-﻿namespace CommonMAUI_JWT
+﻿using CommonMAUI_JWT.Services;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
+
+namespace CommonMAUI_JWT
 {
     public partial class MainPage : ContentPage
     {
         int count = 0;
 
-        public MainPage()
+        private readonly IApiService _apiservice;
+        public MainPage( IApiService apiservice)
         {
             InitializeComponent();
+            _apiservice = apiservice;
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private async void OnCounterClicked(object sender, EventArgs e)
         {
             count++;
-
+            //For test
+            await _apiservice.GetAccessToken();
             if (count == 1)
                 CounterBtn.Text = $"Clicked {count} time";
             else

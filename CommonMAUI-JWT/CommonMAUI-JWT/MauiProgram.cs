@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CommonMAUI_JWT.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 
@@ -11,9 +12,9 @@ namespace CommonMAUI_JWT
             var builder = MauiApp.CreateBuilder();
             var assembly = Assembly.GetExecutingAssembly();
             using var stream = assembly.GetManifestResourceStream($"CommonMAUI_JWT.appsettings.json");
-            var config = new ConfigurationBuilder().AddJsonStream(stream).Build();
+            var _config = new ConfigurationBuilder().AddJsonStream(stream).Build();
 
-            builder.Configuration.AddConfiguration(config);
+            builder.Configuration.AddConfiguration(_config);
 
 
 
@@ -25,7 +26,14 @@ namespace CommonMAUI_JWT
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddHttpClient("JWT_Client",config =>
+            {
+                var url = _config["BaseUrl"];
+                config.BaseAddress = new Uri(url);
+            });
 
+            builder.Services.AddTransient<IApiService,ApiService>();
+            builder.Services.AddSingleton<MainPage>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
