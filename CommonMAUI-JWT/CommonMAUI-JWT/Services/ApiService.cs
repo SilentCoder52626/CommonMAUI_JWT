@@ -41,7 +41,7 @@ namespace CommonMAUI_JWT.Services
             if (response.IsSuccessStatusCode)
             {
                 // Read the response content as a string
-                result = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadAsStringAsync();
 
                 await SecureStorage.SetAsync("Token", result);
             }
